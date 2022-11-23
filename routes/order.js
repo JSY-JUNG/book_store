@@ -334,58 +334,6 @@ router.post('/pay', async (req, res, next) => {
             res.redirect('/');
         } else if (payWith == 'none') {
             // 바로 결제
-            let usePoint = 0;
-            if (resultpoint % 1000 != 0) {
-                return res.send();
-            }
-            if (resultpoint != 0) {
-                usePoint = resultpoint;
-            }
-            let point = (totalPrice - usePoint) * 0.1;
-
-            const user = await User.findOne({
-                where: {
-                    id: req.user.id,
-                },
-            });
-            point += user.point;
-            point -= usePoint;
-
-            await User.update({
-                point: point,
-            },
-                {
-                    where: {
-                        id: req.user.id,
-                    },
-                }
-            );
-            let totalValue = (totalPrice - usePoint) * 1;
-            
-            const total = await User.findOne({
-                where: {
-                    id: req.user.id,
-                },
-            });
-            totalValue += total.totalValue;
-            let grade = total.grade;
-            if (totalValue > 100000) {
-                grade = "diamond";
-            } else if (totalValue > 60000) {
-                grade = "gold";
-            } else if (totalValue > 30000) {
-                grade = "silver";
-            }
-
-            await User.update({
-                totalValue: totalValue,
-                grade: grade,
-            }, {
-                where: {
-                    id: req.user.id,
-                }
-            }
-            )
             const book = await Book.findOne({
                 where: {
                     number: bookNumbers,

@@ -48,6 +48,18 @@
                 <input type="hidden" value="1" name="quantity" class="book-quantity-copy">
                 <button class="buy-btn {{book.number}}">바로구매</button>
             </form>
+            <form action="/review" method="post" class="go-order">
+                <input type="hidden" value="{{book.number}}" name="bookNumber" class="book-number">
+                <button class="buy-btn {{book.number}}">리뷰작성</button>
+            </form>
+            <div>
+                {% for review in reviews%}
+                <div>
+                <span>리뷰 내용:{{review.review_contents}}</span>
+                <span>평점:{{review.review_grade}}</span>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

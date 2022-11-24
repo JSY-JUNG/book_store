@@ -56,5 +56,8 @@ module.exports = class User extends Sequelize.Model {
 
         // order 1 : N 관계 (1측, 비식별)
         db.User.hasMany(db.Order, { foreignKey: 'user_id', sourceKey: 'id', onDelete: 'set null', onUpdate: 'cascade' });
+
+        // book n: M 관계
+        db.User.belongsToMany(db.Book, { through: db.Review, foreignKey: 'user_id', sourceKey: 'id' });
     }
 }

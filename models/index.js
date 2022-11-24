@@ -11,7 +11,7 @@ const Order = require('./order');
 const OrderItem = require('./orderItem');
 const Cart = require('./cart');
 const CartItem = require('./cartItem');
-
+const Review = require('./review');
 const db = {};
 const sequelize = new Sequelize(
     config.database, config.username, config.password, config
@@ -27,7 +27,7 @@ db.Order = Order;
 db.OrderItem = OrderItem;
 db.Cart = Cart;
 db.CartItem = CartItem;
-
+db.Review = Review;
 // 모델 init 
 User.init(sequelize);
 CreditCard.init(sequelize);
@@ -37,7 +37,7 @@ Order.init(sequelize);
 OrderItem.init(sequelize);
 Cart.init(sequelize);
 CartItem.init(sequelize);
-
+Review.init(sequelize);
 // 모델 associate
 User.associate(db);
 CreditCard.associate(db);
@@ -47,5 +47,5 @@ Order.associate(db);
 OrderItem.associate(db);
 Cart.associate(db);
 CartItem.associate(db);
-
+Review.associate(db);
 module.exports = db;

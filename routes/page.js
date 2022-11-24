@@ -1,6 +1,6 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { Book, CreditCard, ShippingAddress, Order } = require('../models');
+const { Book, CreditCard, ShippingAddress, Order, Review } = require('../models');
 const { getOrder, getOrders } = require('../find');
 
 const router = express.Router();
@@ -42,8 +42,19 @@ router.get('/book', async (req, res, next) => {
             canOrder = false;
         }
 
+        const book_review = await Review.findAll({
+            include: [
+                {
+                    model: Book,
+                    where: {
+                        number: bookNumber,
+                    }
+                }
+            ]
+        })
+        
         // console.log('book', book);
-        return res.render('detailView', { book, canOrder });
+        return res.render('detailView', { book, canOrder, reviews:book_review});
     } catch (err) {
         console.error(err);
         next(err);

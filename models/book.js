@@ -30,6 +30,14 @@ module.exports = class Book extends Sequelize.Model {
             imageSource: {
                 type: Sequelize.STRING,
                 allowNull: true,
+            },
+            avg_grade: {
+                type: Sequelize.FLOAT,
+                allowNull: true,
+            },
+            grade_count: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
             }
         }, {
             sequelize,
@@ -49,5 +57,8 @@ module.exports = class Book extends Sequelize.Model {
         
         // order와 N : M 관계 (through: OrderItem)
         db.Book.belongsToMany(db.Order, { through: db.OrderItem, foreignKey: 'book_number', sourceKey: 'number'});
+    
+        // user 와 N: M 관계
+        db.Book.belongsToMany(db.User, { through: db.Review, foreignKey: 'book_number', sourceKey: 'number' });
     }
 }

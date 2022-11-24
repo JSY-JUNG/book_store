@@ -20,7 +20,7 @@ const infoRouter = require('./routes/info');
 const returnRouter = require('./routes/return'); //주문확인
 const { sequelize } = require('./models');
 const passportConfig = require('./passport');
-
+const reviewRouter = require('./routes/review'); // 리뷰화면
 const app = express();
 passportConfig();
 app.set('port', process.env.PORT || 8081);
@@ -65,7 +65,7 @@ app.use('/auth', authRouter);
 app.use('/save', saveRouter);
 app.use('/info', infoRouter);
 app.use('/return', returnRouter); //주문확인
-
+app.use('/review', reviewRouter); // 페이지 이동
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url}에 라우터가 없습니다.`);
     error.status = 404;

@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div>
+    <p>책 이름: {{review_book.title}}</p>
+</div>
+<form action ="/review/write" method="post">
+<div>
+    <p>리뷰 내용작성</p>
+    <textarea cols="50" rows="15" name="review_text"> 
+    </textarea>
+</div>
+<div>
+    <span>평점 :</span>
+    <input type="number" name="review_grade"/>
+</div>
+<div>
+    <button type="submit">리뷰 작성 완료</button>
+</div>
+<input type="hidden" value="{{review_book.number}}" name="bookNumber"> 
+<!-- review_book은 review.js 라우터에있는 렌더안에있는 키를 들고온것 -->
+</form>
+
+{% endblock %}

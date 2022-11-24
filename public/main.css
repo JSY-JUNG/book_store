@@ -338,7 +338,7 @@ nav .search i {
     margin-top: var(--margin-top-value);
     border: 1px solid grey;
     padding: 40px 20px;
-    padding-bottom: 5em;
+    padding-bottom: 8em;
 }
 
 .detail-book-image {

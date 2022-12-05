@@ -19,6 +19,12 @@
                 <div><b>책 소개</b></div>
                 <p class="book-info-content">{{book.info}}</p>
             </div>
+            <div>
+                <br/>
+                <div><b>좋아요:</b>
+                <span>{{book.nice}}</span> 개
+                </div>
+            </div>
         </div>
         <div class="show-active">
             <div class="show-stock">
@@ -51,6 +57,10 @@
             <form action="/review" method="post" class="go-order">
                 <input type="hidden" value="{{book.number}}" name="bookNumber" class="book-number">
                 <button class="buy-btn {{book.number}}">리뷰작성</button>
+            </form>
+            <form action="/nice" method="post" class="go-order">
+                <input type="hidden" value="{{book.number}}" name="bookNumber" class="book-number">
+                <button class="buy-btn">좋아요</button>
             </form>
             <div>
                 {% for review in reviews%}

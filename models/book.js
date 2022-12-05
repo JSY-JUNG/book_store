@@ -38,6 +38,11 @@ module.exports = class Book extends Sequelize.Model {
             grade_count: {
                 type: Sequelize.INTEGER,
                 allowNull: true,
+            },
+            nice: {
+                type: Sequelize.INTEGER,
+                allowNull: true,
+                defaultValue: 0,
             }
         }, {
             sequelize,
@@ -60,5 +65,7 @@ module.exports = class Book extends Sequelize.Model {
     
         // user 와 N: M 관계
         db.Book.belongsToMany(db.User, { through: db.Review, foreignKey: 'book_number', sourceKey: 'number' });
+        // user n:m 관계 (좋아요)
+        db.Book.belongsToMany(db.User, { through: db.Nice, foreignKey: 'book_number', sourceKey: 'number' });
     }
 }

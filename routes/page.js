@@ -1,6 +1,6 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { Book, CreditCard, ShippingAddress, Order, Review } = require('../models');
+const { Book, CreditCard, ShippingAddress, Order, Review, User, Nice } = require('../models');
 const { getOrder, getOrders } = require('../find');
 
 const router = express.Router();
@@ -60,7 +60,70 @@ router.get('/book', async (req, res, next) => {
         next(err);
     }
 })
-
+router.post('/nice', async (req, res, next) => {
+    const bookNumber = req.body.bookNumber;
+    try {
+        const book = await Book.findOne({
+            where: {
+                number: bookNumber,
+            }
+        })
+        const find_nice = await Nice.findOne({
+            include: [
+                {
+                    model: Book,
+                    where: {
+                        number: bookNumber,
+                    }
+                },
+                {
+                    model: User,
+                    where: {
+                        id: req.user.id,
+                    }
+                }
+            ]
+        })
+        if (find_nice) {
+            await Nice.destroy({
+                where: {
+                    number: find_nice.number,
+                }
+            })
+            let minusnice = book.nice - 1;
+            await Book.update({
+                nice: minusnice,
+            },
+                {
+                    where: {
+                        number:bookNumber,
+                    }
+                })
+            return res.redirect('/');
+        }
+        await Nice.create({
+            user_id: req.user.id,
+            book_number: bookNumber,
+        })
+        let count = 0;
+        let usecount = 0;
+        count = count + 1;
+        usecount += count;
+        usecount += book.nice;
+        await Book.update({
+            nice: usecount,
+        },
+            {
+                where: {
+                number: bookNumber,
+            }
+        })
+        return res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+})
 router.get('/login', isNotLoggedIn, (req, res) => {
     res.render('login');
 })

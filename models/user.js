@@ -59,5 +59,7 @@ module.exports = class User extends Sequelize.Model {
 
         // book n: M 관계
         db.User.belongsToMany(db.Book, { through: db.Review, foreignKey: 'user_id', sourceKey: 'id' });
+        // book n: m 관계 (좋아요)
+        db.User.belongsToMany(db.Book, { through: db.Nice, foreignKey: 'user_id', sourceKey: 'id' });
     }
 }

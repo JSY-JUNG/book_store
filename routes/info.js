@@ -48,7 +48,7 @@ router.get('/', async (req, res, next) => {
                 addressInfos.push(addressInfo);
             })
         }
-
+        
         res.render('showInfoView', { user, cardInfos, addressInfos });
     } catch (err) {
         console.error(err);

@@ -5,11 +5,10 @@ const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
-router.post('/', isLoggedIn, async (req, res, next) => {
+router.get('/', isLoggedIn, async (req, res, next) => {
     try {
-        const review_book = await getBook(req.body.bookNumber);
+        const review_book = await getBook(req.query.bookNumber);
         res.render('review', { review_book }); // 책에대한 정보를 들고온다
-        
     } catch (err) {
         console.error(err);
         next(err);
@@ -75,6 +74,39 @@ router.post('/write', async (req, res, next) => {
         }
         )
         //평균평점과 평점참여수 A부분
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+})
+router.post('/', isLoggedIn, async (req, res, next) => {
+    try {
+        const review_book = await getBook(req.body.bookNumber);
+        res.render('savereview', { review_book }); // 책에대한 정보를 들고온다
+        
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+})
+router.post('/sojung', isLoggedIn, async (req, res, next) => {
+    try {
+    const review_contents = req.body.review_text;
+    const review_grade = req.body.review_grade;
+    const review_date = new Date();
+    const bookNumber = req.body.bookNumber;
+        
+        await Review.update({
+            review_contents: review_contents,
+            review_grade: review_grade,
+            review_date: review_date,
+        },
+            {
+                where: {
+                user_id: req.user.id,
+            }
+            })
         res.redirect('/');
     } catch (err) {
         console.error(err);
